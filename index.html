@@ -563,38 +563,7 @@
         
         .neon-btn { background: transparent; border: 1px solid #333; color: #333; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.3s; }
         .neon-btn:hover { background: #333; color: #fff; }
-    </style>
-</head>
-<body>
 
-<div id="mainView">
-    <nav class="sidebar" id="sidebarMenu">
-        <ul style="list-style: none; padding: 0;">
-            <li><a style="padding: 15px; display: block; color: #333; cursor: pointer;" onclick="showHome()">الرئيسية</a></li>
-            <li><a style="padding: 15px; display: block; color: #333; cursor: pointer;" onclick="loadCategory('أجهزة')">الأجهزة</a></li>
-        </ul>
-    </nav>
-    <div id="sidebarOverlay" class="overlay" onclick="toggleSidebar()"></div>
-
-    <div class="store-container">
-        <div class="video-wrapper">
-            <div class="video-overlay"></div> 
-            <iframe src="https://www.youtube.com/embed/gUZR1XHPNRo?autoplay=1&mute=1&loop=1&playlist=gUZR1XHPNRo&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>
-        </div>
-
-        <button class="neon-btn" onclick="toggleSidebar()">القائمة</button>
-        <button id="loginBtn" class="neon-btn" onclick="handleAuth()">تسجيل الدخول</button>
-        <button class="neon-btn" onclick="showCart()">السلة (<span id="cartCount">0</span>)</button>
-        
-        <h1 style="text-align: center; color: #333;">متجر Mega Tech</h1>
-        <div id="productView" style="display: none;">
-            <h2 id="catName" style="color:#333; text-align: center;"></h2>
-            <div class="product-grid" id="gridItems"></div>
-        </div>
-    </div>
-</div>
-
-<style>
    
         
     </style>
