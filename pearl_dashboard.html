@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>موسوعة الجافاسكريبت - الواجهة اللؤلؤية</title>
+  <style>
+    :root {
+      --pearl-bg-1: #fbfbfd;
+      --pearl-bg-2: #edf2f7;
+      --pearl-card: rgba(255, 255, 255, 0.65);
+      --pearl-card-hover: rgba(255, 255, 255, 0.85);
+      --pearl-border: rgba(255, 255, 255, 0.9);
+      --pearl-shadow: 0 20px 40px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.8);
+      --pearl-glow: 0 0 25px rgba(230, 240, 255, 0.9);
+      --text-main: #2d3748;
+      --text-sub: #718096;
+      --accent: #4a90e2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 50%, #fbc2eb 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* الهيدر الرئيسي */
+    header {
+      background: var(--pearl-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--pearl-border);
+      box-shadow: var(--pearl-shadow);
+      border-radius: 24px;
+      padding: 30px 40px;
+      text-align: center;
+      max-width: 900px;
+      width: 100%;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #2b6cb0;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    }
+
+    header p {
+      color: var(--text-sub);
+      font-size: 1.1rem;
+    }
+
+    /* شبكة الأمثلة / الأيقونات */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .icon-card {
+      background: var(--pearl-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--pearl-border);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: var(--pearl-shadow);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .icon-card:hover {
+      background: var(--pearl-card-hover);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08), var(--pearl-glow);
+    }
+
+    .icon-card .icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: inline-block;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .icon-card h3 {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .icon-card p {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      background: rgba(74, 144, 226, 0.15);
+      color: #2b6cb0;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* النافذة المنبثقة اللؤلؤية (Modal) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(220, 228, 238, 0.4);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 28px;
+      padding: 35px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.12), inset 0 0 20px rgba(255,255,255,0.9);
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #dc2626;
+    }
+
+    /* عناصر التحكم داخل الأمثلة */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    input {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      outline: none;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .action-btn {
+      padding: 12px;
+      background: linear-gradient(135deg, #ffffff, #e2e8f0);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2b6cb0;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: #4a90e2;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .result-box {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      color: #2e7d32;
+      min-height: 25px;
+    }
+
+    footer {
+      margin-top: 50px;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الهيدر اللؤلؤي -->
+  <header>
+    <h1>✨ موسوعة جافاسكريبت اللؤلؤية</h1>
+    <p>انقر على أي نمط أو مثال للاستكشاف والتجربة المباشرة</p>
+  </header>
+
+  <!-- شبكة الأمثلة -->
+  <main class="grid">
+
+    <!-- بطاقة المثال 1 -->
+    <div class="icon-card" onclick="openModal('modal-calc')">
+      <div class="icon">🧮</div>
+      <h3>المتغيرات والحساب</h3>
+      <p>تطبيق الآلة الحاسبة الذكية بحساب فوريات المتغيرات</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
+
+    <!-- بطاقة المثال 2 (مجهزة للخطوة القادمة) -->
+    <div class="icon-card" onclick="alert('سنضيف هذا المثال في الخطوة القادمة!')">
+      <div class="icon">⚖️</div>
+      <h3>الجمل الشرطية</h3>
+      <p>اتخاذ القرارات البرمجية وفحص الأعمار والشروط</p>
+      <span class="badge" style="background: rgba(0,0,0,0.05); color:#888;">قريباً</span>
+    </div>
+
+    <!-- بطاقة المثال 3 -->
+    <div class="icon-card" onclick="alert('سنضيف هذا المثال في الخطوة القادمة!')">
+      <div class="icon">🔄</div>
+      <h3>الحلقات التكرارية</h3>
+      <p>توليد جداول الضرب والتكرارات التلقائية</p>
+      <span class="badge" style="background: rgba(0,0,0,0.05); color:#888;">قريباً</span>
+    </div>
+
+    <!-- بطاقة المثال 4 -->
+    <div class="icon-card" onclick="alert('سنضيف هذا المثال في الخطوة القادمة!')">
+      <div class="icon">📦</div>
+      <h3>المصفوفات</h3>
+      <p>إدارة وقوائم البيانات الديناميكية</p>
+      <span class="badge" style="background: rgba(0,0,0,0.05); color:#888;">قريباً</span>
+    </div>
+
+  </main>
+
+  <!-- نافذة المثال الأول المنبثقة (Modal) -->
+  <div class="modal-overlay" id="modal-calc">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-calc')">✕</button>
+      <h2 style="color: #2b6cb0; margin-bottom: 10px;">🧮 آلة الحساب اللؤلؤية</h2>
+      <p style="color: var(--text-sub); font-size:0.9rem;">تطبيق مباشر على استخدام المتغيرات والعمليات الحسابية</p>
+      
+      <div class="input-group">
+        <input type="number" id="num1" placeholder="الرقم الأول" value="15">
+        <input type="number" id="num2" placeholder="الرقم الثاني" value="5">
+      </div>
+
+      <div class="btn-grid">
+        <button class="action-btn" onclick="calculate('+')">+</button>
+        <button class="action-btn" onclick="calculate('-')">-</button>
+        <button class="action-btn" onclick="calculate('*')">×</button>
+        <button class="action-btn" onclick="calculate('/')">÷</button>
+      </div>
+
+      <div class="result-box" id="calc-result">
+        اختر عملية حسابية
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>تصميم وتطوير الواجهة اللؤلؤية لتعليم الجافاسكريبت ✨</p>
+  </footer>
+
+  <script>
+    // فتح وإغلاق النوافذ المنبثقة
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    // منطق الآلة الحاسبة (المثال الأول)
+    function calculate(op) {
+      const n1 = parseFloat(document.getElementById('num1').value);
+      const n2 = parseFloat(document.getElementById('num2').value);
+      const resBox = document.getElementById('calc-result');
+
+      if (isNaN(n1) || isNaN(n2)) {
+        resBox.innerText = "يرجى إدخال أرقام صحيحة!";
+        resBox.style.color = "#d32f2f";
+        return;
+      }
+
+      let res = 0;
+      if (op === '+') res = n1 + n2;
+      if (op === '-') res = n1 - n2;
+      if (op === '*') res = n1 * n2;
+      if (op === '/') {
+        if (n2 === 0) {
+          resBox.innerText = "لا يمكن القسمة على الصفر!";
+          resBox.style.color = "#d32f2f";
+          return;
+        }
+        res = n1 / n2;
+      }
+
+      resBox.innerText = `النتيجة: ${res}`;
+      resBox.style.color = "#2e7d32";
+    }
+  </script>
+</body>
+</html>
